@@ -14,16 +14,7 @@ class SSD(nn.Module):
         1) conv2d for class conf scores
         2) conv2d for localization predictions
         3) associated priorbox layer to produce default bounding
-           boxes specific to the layer's feature map size.
-    See: https://arxiv.org/pdf/1512.02325.pdf for more details.
-
-    Args:
-        phase: (string) Can be "test" or "train"
-        size: input image size
-        base: VGG16 layers for input, size of either 300 or 500
-        extras: extra layers that feed to multibox loc and conf layers
-        head: "multibox head" consists of loc and conf conv layers
-    """
+           boxes specific to the layer's feature map size"""
 
     def __init__(self, phase, size, base, extras, head, num_classes):
         super(SSD, self).__init__()
@@ -121,8 +112,7 @@ class SSD(nn.Module):
             print('Sorry only .pth and .pkl files supported.')
 
 
-# This function is derived from torchvision VGG make_layers()
-# https://github.com/pytorch/vision/blob/master/torchvision/models/vgg.py
+
 def vgg(cfg, i, batch_norm=False):
     layers = []
     in_channels = i
@@ -179,7 +169,7 @@ def multibox(vgg, extra_layers, cfg, num_classes):
                                   * num_classes, kernel_size=3, padding=1)]
     return vgg, extra_layers, (loc_layers, conf_layers)
 
-
+#selective search for anchor boxes
 base = {
     '300': [64, 64, 'M', 128, 128, 'M', 256, 256, 256, 'C', 512, 512, 512, 'M',
             512, 512, 512],
